@@ -73,6 +73,8 @@ make  # Runs `docker-compose up --build`
 
     MariaDB: Accessible only via WordPress container (port 3306 internal)
 
+---
+
 ## 🔒 Security & Rules
 
 ✅ Forbidden: latest tags, network: host, --link, infinite loops (tail -f, sleep infinity)
@@ -85,6 +87,8 @@ make  # Runs `docker-compose up --build`
     Non-root users in containers
 
     TLSv1.2/1.3 only (NGINX)
+
+---
 
 ## 🛠️ Troubleshooting
 Issue	Solution
