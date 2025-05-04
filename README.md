@@ -28,6 +28,8 @@ This project virtualizes a multi-container infrastructure using **Docker Compose
 
 ## 📂 Project Structure  
 
+```bash  
+
 inception/
 ├── Makefile # Builds images and launches containers
 ├── srcs/ # All configuration files
@@ -46,7 +48,7 @@ inception/
 │ │ └── conf/ # DB configs
 │ └── bonus/ # Optional services (Redis, FTP, etc.)
 └── README.md # This file
-
+```  
 
 ---
 
