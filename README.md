@@ -62,18 +62,18 @@ cd srcs/
 echo "DOMAIN_NAME=yourlogin.42.fr" > .env  # Replace with your 42 login  
 ```
 Add secrets (e.g., secrets/db_password.txt) - never commit these!
-### **2. Build and Launch
+### **2. Build and Launch**
 ```bash  
 make  # Runs `docker-compose up --build`  
 ```
 
-### **3. Access Services
+### **3. Access Services**
 
     WordPress: https://yourlogin.42.fr
 
     MariaDB: Accessible only via WordPress container (port 3306 internal)
 
-##🔒 Security & Rules
+## 🔒 Security & Rules
 
 ✅ Forbidden: latest tags, network: host, --link, infinite loops (tail -f, sleep infinity)
 ✅ Required:
@@ -86,12 +86,12 @@ make  # Runs `docker-compose up --build`
 
     TLSv1.2/1.3 only (NGINX)
 
-##🛠️ Troubleshooting
+## 🛠️ Troubleshooting
 Issue	Solution
 WordPress DB connection error	Check mariadb logs: docker logs -f mariadb
 NGINX 502 Bad Gateway	Verify PHP-FPM is running in WordPress container
 TLS errors	Ensure domain login.42.fr resolves to your VM's IP
-✨ Bonus Features
+## ✨ Bonus Features
 
 To enable bonuses, uncomment services in docker-compose.yml:
 
