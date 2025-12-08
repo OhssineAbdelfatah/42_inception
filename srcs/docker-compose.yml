@@ -1,0 +1,61 @@
+services:
+  mariadb:
+    image : mariadb
+    container_name: mariadb
+    build: ./requirements/mariadb/
+    
+    env_file:
+      - .env
+    expose:
+      - "3306"
+    volumes:
+      - mariadb_vol:/var/lib/mysql
+    
+    networks:
+      - inception
+
+    restart: always
+  wordpress:
+    image: wordpress
+    container_name: wordpress
+    build: ./requirements/wordpress
+    env_file:
+      - .env
+    volumes:
+      - wordpress_vol:/var/www/html
+    networks:
+      - inception
+    restart: always
+    depends_on:
+      - mariadb
+
+  nginx:
+    image: nginx
+    container_name: nginx
+    build: ./requirements/nginx
+    ports:
+      - "443:443"
+    volumes:
+      - wordpress_vol:/var/www/html
+    networks:
+      - inception
+    restart: always
+    depends_on:
+      - wordpress
+volumes:
+  mariadb_vol:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      # Replace 'nolyel' with your aohssine
+      device: /home/nolyel/data/mariadb
+  wordpress_vol:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/nolyel/data/wordpress
+networks:
+  inception:
+    driver: bridge
