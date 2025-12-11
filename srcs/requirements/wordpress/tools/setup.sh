@@ -8,7 +8,7 @@ while ! mariadb-admin ping -h"$SQL_HOST" -u"$SQL_USER" -p"$SQL_PASSWORD" --silen
 done
 echo "MariaDB is ready!"
 
-rm -f latest.tar.gz
+#rm -f latest.tar.gz
 
 if [ -f ./wp-config.php ]
 then

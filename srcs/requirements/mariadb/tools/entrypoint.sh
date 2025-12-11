@@ -36,13 +36,22 @@ if [ ! -d "$DATADIR/mysql" ]; then
 
     echo "Setting root password..."
     
-    mariadb --socket="/run/mysqld/mysqld.sock" <<-EOSQL
-        ALTER USER 'root'@'localhost' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}';
-        CREATE USER IF NOT EXISTS 'root'@'%' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}';
-        GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;
-        FLUSH PRIVILEGES;
-EOSQL
+	mariadb --socket="/run/mysqld/mysqld.sock" <<-EOSQL
+        	-- 1. Set Root Password
+        	ALTER USER 'root'@'localhost' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}';
+        
+       		-- 2. Create the Database (e.g. inception_db)
+        	CREATE DATABASE IF NOT EXISTS \`${SQL_DATABASE}\`;
 
+        	-- 3. Create the User (e.g. inception_user) allowed from ANY host (%)
+        	CREATE USER IF NOT EXISTS '${SQL_USER}'@'%' IDENTIFIED BY '${SQL_PASSWORD}';
+
+        	-- 4. Grant Permissions
+        	GRANT ALL PRIVILEGES ON \`${SQL_DATABASE}\`.* TO '${SQL_USER}'@'%';
+
+        	-- 5. Apply changes
+        	FLUSH PRIVILEGES;
+EOSQL
     echo "Shutting down temporary server..."
     #mariadb-admin shutdown --socket="/run/mysqld/mysqld.sock" -u root -p"${MYSQL_ROOT_PASSWORD}"
     if ! kill -s TERM "$pid" || ! wait "$pid"; then
