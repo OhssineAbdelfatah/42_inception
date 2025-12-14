@@ -47,6 +47,7 @@ services:
       - wordpress
 volumes:
   mariadb_vol:
+    name: mariadb-vol
     driver: local
     driver_opts:
       type: none
@@ -54,6 +55,7 @@ volumes:
       # Replace 'nolyel' with your aohssine
       device: /home/nolyel/data/mariadb
   wordpress_vol:
+    name: wordpress-vol
     driver: local
     driver_opts:
       type: none

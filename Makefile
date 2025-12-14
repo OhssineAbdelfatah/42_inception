@@ -1,19 +1,21 @@
 DOCKER_COMPOSE_FILE = ./srcs/docker-compose.yml
+DATA_PATH=/home/nolyel/data
 
 all: build run
 build:
 	#replace nolyel in MacOS with aohssine
 	mkdir -p /home/nolyel/data/mariadb
 	mkdir -p /home/nolyel/data/wordpress
-	docker compose  -f $(DOCKER_COMPOSE_FILE) up --build
+	docker compose  -f $(DOCKER_COMPOSE_FILE) up --build -d
 run:
-	docker compose -f $(DOCKER_COMPOSE_FILE) up 
+	docker compose -f $(DOCKER_COMPOSE_FILE) up -d
 down:
 	docker compose -f $(DOCKER_COMPOSE_FILE) down
 clean:
 	docker compose -f $(DOCKER_COMPOSE_FILE) down -v
 
 fclean: clean
+# 	@docker run --rm -v $(DATA_PATH)/mariadb:/data alpine rm -rf /data/*
 	docker system prune -a -f
 	rm -rf /home/nolyel/data/mariadb
 	rm -rf /home/nolyel/data/wordpress

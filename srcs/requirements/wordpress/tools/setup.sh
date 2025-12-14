@@ -39,8 +39,8 @@ else
 		--path='/var/www/html'
 	echo "Creating Second user ..."
 	wp user create --allow-root \
-		$USER1_LOGIN $ $USER1_EMAIL \
-		--user_pass=$USER1_PASS \
+		$USER1_LOGIN  $USER1_EMAIL \
+		--user_pass=$USER1_PASSWORD \
 		--role=author \
 		--path='/var/www/html'
 fi
