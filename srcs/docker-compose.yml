@@ -53,14 +53,14 @@ volumes:
       type: none
       o: bind
       # Replace 'nolyel' with your aohssine
-      device: /home/nolyel/data/mariadb
+      device: /home/aohssine/data/mariadb
   wordpress_vol:
     name: wordpress-vol
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: /home/nolyel/data/wordpress
+      device: /home/aohssine/data/wordpress
 networks:
   inception:
     driver: bridge
