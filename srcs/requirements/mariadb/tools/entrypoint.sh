@@ -62,4 +62,10 @@ EOSQL
 fi
 
 echo "Starting MariaDB server..."
-exec mariadbd --user=mysql --console
+exec mariadbd \
+    --user=mysql \
+    --port=3306 \
+    --bind-address=0.0.0.0 \
+    --datadir=/var/lib/mysql \
+    --socket=/run/mysqld/mysqld.sock \
+    --skip-networking=0
