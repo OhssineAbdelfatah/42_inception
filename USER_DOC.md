@@ -139,17 +139,17 @@ Use these credentials to log into the WordPress admin panel (`/wp-admin`):
 ### Database Credentials
 These are used internally by WordPress to connect to MariaDB:
 
-- **Database Name**: `SQL_DATABASE` (default: `inception_db`)
-- **Database User**: `SQL_USER` (default: `inception_user`)
-- **Database Password**: `SQL_PASSWORD` (default: `usersecret123`)
-- **Database Root Password**: `SQL_ROOT_PASSWORD` (default: `rootsecret123`)
-- **Database Host**: `SQL_HOST` (default: `mariadb`)
+- **Database Name**: `SQL_DATABASE` 
+- **Database User**: `SQL_USER`
+- **Database Password**: `SQL_PASSWORD`
+- **Database Root Password**: `SQL_ROOT_PASSWORD`
+- **Database Host**: `SQL_HOST`
 
 ### Additional User Credentials
 A secondary WordPress user is also created:
 
-- **Username**: Value of `USER1_LOGIN` in `.env` (default: `aohssine-wp-user1`)
-- **Password**: Value of `USER1_PASSWORD` in `.env` (default: `fasifakihakinaarsba7ichak1`)
+- **Username**: Value of `USER1_LOGIN` in `.env`
+- **Password**: Value of `USER1_PASSWORD` in `.env`
 - **Email**: Value of `USER1_EMAIL` in `.env`
 
 **Security Recommendation**: Change all default passwords in the `.env` file before deploying to production.
@@ -247,26 +247,6 @@ ls -la /home/aohssine/data/wordpress
 ```
 
 These directories should contain database files and WordPress files respectively.
-
-## Common Issues and Solutions
-
-### Issue: Browser shows "Connection refused"
-**Solution**: Ensure containers are running with `docker ps`. If not, restart with `make run`.
-
-### Issue: "Error establishing database connection"
-**Solution**: 
-1. Check if MariaDB container is running: `docker ps`
-2. Verify credentials in `srcs/.env` match those expected by WordPress
-3. Check MariaDB logs: `docker logs mariadb`
-
-### Issue: SSL certificate warning
-**Solution**: This is expected with self-signed certificates. Click "Advanced" and proceed. For production, use a proper SSL certificate from a trusted Certificate Authority.
-
-### Issue: Permission denied when running make
-**Solution**: Ensure your user has Docker permissions. You may need to add your user to the docker group or use `sudo`.
-
-### Issue: Port 443 already in use
-**Solution**: Another service is using port 443. Stop that service or change the port mapping in `docker-compose.yml`.
 
 ## Maintenance
 
