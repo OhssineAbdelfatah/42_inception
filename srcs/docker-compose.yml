@@ -11,7 +11,7 @@ services:
       - mariadb_vol:/var/lib/mysql
     networks:
       - inception
-    restart: always
+    restart: unless-stopped
 
   wordpress:
     image: wordpress
@@ -23,7 +23,7 @@ services:
       - wordpress_vol:/var/www/html
     networks:
       - inception
-    restart: always
+    restart: unless-stopped
     depends_on:
       - mariadb
 
@@ -37,7 +37,7 @@ services:
       - wordpress_vol:/var/www/html
     networks:
       - inception
-    restart: always
+    restart: unless-stopped
     depends_on:
       - wordpress
 
