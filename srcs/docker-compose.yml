@@ -5,8 +5,6 @@ services:
     build: ./requirements/mariadb
     env_file:
       - .env
-    expose:
-      - "3306"
     volumes:
       - mariadb_vol:/var/lib/mysql
     networks:

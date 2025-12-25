@@ -10,12 +10,9 @@ This documentation provides comprehensive technical information for developers w
 
 #### 1. Virtual Machine
 - **Requirement**: This project **must** be run inside a Virtual Machine
-- **Recommended**: VirtualBox, VMware, or UTM
-- **OS**: Linux distribution (Ubuntu, Debian, or similar)
 - **Reason**: Provides isolation and matches 42 evaluation requirements
 
 #### 2. Docker
-- **Minimum Version**: Docker 20.10 or higher
 - **Installation**:
   ```bash
   # Update package index
@@ -43,20 +40,11 @@ This documentation provides comprehensive technical information for developers w
   docker compose version
   ```
 
-### System Requirements
-
-- **RAM**: Minimum 2GB, recommended 4GB
-- **Disk Space**: At least 10GB free space
-- **CPU**: 2+ cores recommended
-- **Network**: Internet connection for pulling base images and packages
-
 ## Environment Setup
 
 ### Step 1: Configure the .env File
 
 The `.env` file is located in `srcs/.env` and contains all sensitive configuration variables.
-
-**Location**: `/home/runner/work/42_inception/42_inception/srcs/.env`
 
 #### Required Environment Variables
 
@@ -82,12 +70,6 @@ USER1_EMAIL=user1@example.com                  # Secondary user email
 DOMAIN_NAME=aohssine.42.fr         # Domain name for the site
 SITE_TITLE=Inception               # WordPress site title
 ```
-
-**Security Best Practices**:
-- Never commit `.env` to version control (already in `.gitignore`)
-- Use strong, unique passwords for production
-- Change all default values before deployment
-- Restrict file permissions: `chmod 600 srcs/.env`
 
 ### Step 2: Data Directory Setup
 
@@ -411,7 +393,6 @@ docker exec wordpress nc -zv mariadb 3306
 - Base: Alpine Linux 3.22
 - Installs MariaDB server and client
 - Creates necessary directories with correct permissions
-- Copies configuration file
 - Copies and makes executable the entrypoint script
 - Exposes port 3306
 
@@ -439,7 +420,7 @@ docker exec wordpress nc -zv mariadb 3306
 - Installs Nginx and OpenSSL
 - Generates self-signed SSL certificate
 - Copies Nginx configuration
-- Exposes ports 80 and 443
+- Exposes ports 443 (do not expose 80 : http)
 - Runs Nginx in foreground mode
 
 ### Configuration Files Locations
@@ -492,59 +473,6 @@ This project uses **bind mounts** instead of Docker-managed volumes for explicit
    - Easy to backup (just copy host directories)
    - Easy to inspect (navigate to host path)
    - Complies with 42 subject requirements
-
-### Data Backup and Restoration
-
-#### Backup Strategy
-
-**Full Backup**:
-```bash
-#!/bin/bash
-BACKUP_DIR=~/inception-backups/$(date +%Y%m%d_%H%M%S)
-mkdir -p $BACKUP_DIR
-
-# Stop containers to ensure data consistency
-docker compose -f srcs/docker-compose.yml down
-
-# Backup data directories
-sudo cp -r /home/aohssine/data/mariadb $BACKUP_DIR/
-sudo cp -r /home/aohssine/data/wordpress $BACKUP_DIR/
-
-# Backup configuration
-cp srcs/.env $BACKUP_DIR/
-cp srcs/docker-compose.yml $BACKUP_DIR/
-
-# Restart containers
-docker compose -f srcs/docker-compose.yml up -d
-
-echo "Backup completed: $BACKUP_DIR"
-```
-
-**Incremental Backup** (using rsync):
-```bash
-rsync -av --delete /home/aohssine/data/ ~/inception-data-backup/
-```
-
-#### Restoration Procedure
-
-```bash
-# 1. Stop running containers
-docker compose -f srcs/docker-compose.yml down
-
-# 2. Remove current data (CAUTION!)
-sudo rm -rf /home/aohssine/data/mariadb/*
-sudo rm -rf /home/aohssine/data/wordpress/*
-
-# 3. Restore from backup
-sudo cp -r ~/inception-backups/BACKUP_DATE/mariadb/* /home/aohssine/data/mariadb/
-sudo cp -r ~/inception-backups/BACKUP_DATE/wordpress/* /home/aohssine/data/wordpress/
-
-# 4. Restore configuration
-cp ~/inception-backups/BACKUP_DATE/.env srcs/.env
-
-# 5. Restart services
-docker compose -f srcs/docker-compose.yml up -d
-```
 
 ## Architecture Details
 
@@ -736,78 +664,6 @@ docker exec <container-name> env
    - Create a test post
    - Verify data persists after `make down` and `make run`
 
-## Troubleshooting
-
-### Common Issues
-
-#### Issue: "Cannot connect to Docker daemon"
-**Cause**: Docker service not running or permission issue
-
-**Solution**:
-```bash
-sudo systemctl start docker
-sudo usermod -aG docker $USER
-# Log out and back in
-```
-
-#### Issue: "Port 443 already in use"
-**Cause**: Another service (like Apache) is using port 443
-
-**Solution**:
-```bash
-sudo lsof -i :443  # Find process using port 443
-sudo systemctl stop <service-name>
-```
-
-#### Issue: "Volume in use" when running `make fclean`
-**Cause**: Containers are still running
-
-**Solution**:
-```bash
-docker compose -f srcs/docker-compose.yml down
-# Then run make fclean again
-```
-
-#### Issue: WordPress shows "Error establishing database connection"
-**Cause**: Credentials mismatch or MariaDB not ready
-
-**Solution**:
-1. Check `.env` file credentials
-2. Verify MariaDB is running: `docker logs mariadb`
-3. Wait 30 seconds for MariaDB to fully initialize
-4. Restart WordPress: `docker compose -f srcs/docker-compose.yml restart wordpress`
-
-#### Issue: "Permission denied" when accessing data directories
-**Cause**: Incorrect file permissions
-
-**Solution**:
-```bash
-sudo chown -R $USER:$USER /home/aohssine/data
-chmod -R 755 /home/aohssine/data
-```
-
-## Best Practices
-
-### Security
-- Never commit `.env` file to version control
-- Use strong passwords in production
-- Regularly update base images for security patches
-- Use proper SSL certificates for production (not self-signed)
-
-### Development
-- Test changes incrementally
-- Use `docker compose logs` for debugging
-- Keep Dockerfiles minimal and efficient
-- Document configuration changes
-
-### Performance
-- Use `.dockerignore` to exclude unnecessary files
-- Leverage Docker layer caching
-- Clean up unused images and volumes regularly:
-  ```bash
-  docker system prune
-  ```
-
 ## Additional Resources
 
 - [Docker Documentation](https://docs.docker.com/)
@@ -815,7 +671,6 @@ chmod -R 755 /home/aohssine/data
 - [WordPress CLI Documentation](https://developer.wordpress.org/cli/)
 - [Nginx Documentation](https://nginx.org/en/docs/)
 - [MariaDB Documentation](https://mariadb.com/kb/en/)
-- [42 Inception Project Subject](https://cdn.intra.42.fr/pdf/pdf/xxxxx/en.subject.pdf)
 
 ## Support
 
