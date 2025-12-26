@@ -10,7 +10,13 @@ services:
     networks:
       - inception
     restart: unless-stopped
-
+    healthcheck:
+      test: ["CMD", "mariadb-admin", "ping", "-h", "localhost", "-u", "root", "-p$$SQL_ROOT_PASSWORD"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+  
   wordpress:
     image: wordpress
     container_name: wordpress
@@ -23,7 +29,8 @@ services:
       - inception
     restart: unless-stopped
     depends_on:
-      - mariadb
+      mariadb:
+        condition: service_healthy
 
   nginx:
     image: nginx
@@ -37,7 +44,8 @@ services:
       - inception
     restart: unless-stopped
     depends_on:
-      - wordpress
+      wordpress:
+        condition: service_started
 
 volumes:
   mariadb_vol:
