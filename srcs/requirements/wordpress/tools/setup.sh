@@ -17,19 +17,19 @@ else
 		--dbname=$SQL_DATABASE \
 		--dbuser=$SQL_USER \
 		--dbpass=$SQL_PASSWORD \
-		--dbhost=$SQL_HOST \
+		--dbhost=$SQL_HOST
 	echo "Install Wordpress Core ..."
 	wp core install --allow-root \
 		--url=$DOMAIN_NAME \
 		--title=$SITE_TITLE \
 		--admin_user=$ADMIN_USER \
 		--admin_password=$ADMIN_PASSWORD \
-		--admin_email=$ADMIN_EMAIL \
+		--admin_email=$ADMIN_EMAIL
 	echo "Creating Second user ..."
 	wp user create --allow-root \
 		$USER1_LOGIN  $USER1_EMAIL \
 		--user_pass=$USER1_PASSWORD \
-		--role=author \
+		--role=author
 fi
 
 echo "Starting PHP-FMP"
