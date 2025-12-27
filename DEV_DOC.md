@@ -46,31 +46,6 @@ This documentation provides comprehensive technical information for developers w
 
 The `.env` file is located in `srcs/.env` and contains all sensitive configuration variables.
 
-#### Required Environment Variables
-
-```bash
-# Database Configuration
-SQL_DATABASE=inception_db          # Name of the WordPress database
-SQL_USER=inception_user            # Non-root database user for WordPress
-SQL_PASSWORD=usersecret123         # Password for SQL_USER
-SQL_ROOT_PASSWORD=rootsecret123    # Root password for MariaDB
-SQL_HOST=mariadb                   # Hostname (Docker service name)
-
-# WordPress Administrator
-ADMIN_USER=aohesine-wp-root        # WordPress admin username
-ADMIN_PASSWORD=fasifakwordPress    # WordPress admin password
-ADMIN_EMAIL=aohssine@student.42.fr # WordPress admin email
-
-# Additional WordPress User
-USER1_LOGIN=aohssine-wp-user1                  # Secondary user login
-USER1_PASSWORD=fasifakihakinaarsba7ichak1     # Secondary user password
-USER1_EMAIL=user1@example.com                  # Secondary user email
-
-# Site Configuration
-DOMAIN_NAME=aohssine.42.fr         # Domain name for the site
-SITE_TITLE=Inception               # WordPress site title
-```
-
 ### Step 2: Data Directory Setup
 
 The project uses bind mounts to persist data on the host machine.
