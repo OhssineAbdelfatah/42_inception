@@ -67,14 +67,14 @@ The project involves setting up a small, resilient infrastructure composed of di
    ```
 
 2. **Configure environment variables:**
-   - Copy the `.env` file in the `srcs` directory and configure it with your credentials:
+   - Create or edit the `.env` file in the `srcs` directory with your credentials:
      - Database credentials (root password, database name, user, password)
      - WordPress configuration (database host, admin credentials, site URL)
-     - Domain name
+     - Domain name (e.g., `login.42.fr`)
 
 3. **Update paths (if necessary):**
    - The Makefile and docker-compose.yml use `/home/aohssine/data/` as the default path for bind mounts.
-   - Update these paths to match your VM username if different.
+   - Update these paths to match your VM username (e.g., `/home/your-login/data/`).
 
 ### Compilation & Execution
 
@@ -98,7 +98,7 @@ This command will:
 ### Access
 
 Once the infrastructure is running:
-- Access the WordPress site via HTTPS at: `https://aohssine.42.fr` (or your configured domain)
+- Access the WordPress site via HTTPS at: `https://your-domain.42.fr` (using the domain you configured in the `.env` file)
 - Ensure your domain is properly configured in your `/etc/hosts` file or DNS
 
 ### Verification
