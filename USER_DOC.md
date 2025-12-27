@@ -132,8 +132,8 @@ srcs/.env
 ### Administrator Credentials
 Use these credentials to log into the WordPress admin panel (`/wp-admin`):
 
-- **Username**: Value of `ADMIN_USER` in `.env` (default: `aohesine-wp-root`)
-- **Password**: Value of `ADMIN_PASSWORD` in `.env` (default: `fasifakwordPress`)
+- **Username**: Value of `ADMIN_USER` in `.env`
+- **Password**: Value of `ADMIN_PASSWORD` in `.env`
 - **Email**: Value of `ADMIN_EMAIL` in `.env`
 
 ### Database Credentials
