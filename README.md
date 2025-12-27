@@ -1,5 +1,5 @@
 # Inception - 42 Project  
-This project has been created as part of the 42 curriculum by aohssine.
+*This project has been created as part of the 42 curriculum by aohssine.*
 
 ## Description
 
@@ -56,5 +56,101 @@ The project involves setting up a small, resilient infrastructure composed of di
 
 - This project must be run inside a Virtual Machine.
 - Ensure Docker and Docker Compose are installed.
+- You need root/sudo privileges to create directories and manage Docker.
 
 ### Installation & Configuration
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/OhssineAbdelfatah/42_inception.git
+   cd 42_inception
+   ```
+
+2. **Configure environment variables:**
+   - Copy the `.env` file in the `srcs` directory and configure it with your credentials:
+     - Database credentials (root password, database name, user, password)
+     - WordPress configuration (database host, admin credentials, site URL)
+     - Domain name
+
+3. **Update paths (if necessary):**
+   - The Makefile and docker-compose.yml use `/home/aohssine/data/` as the default path for bind mounts.
+   - Update these paths to match your VM username if different.
+
+### Compilation & Execution
+
+**Build and run the infrastructure:**
+```bash
+make
+```
+This command will:
+- Create the necessary directories for data persistence
+- Build all Docker images from Dockerfiles
+- Start all containers in detached mode
+
+**Alternative commands:**
+- `make build` - Build and start containers
+- `make run` - Start existing containers
+- `make down` - Stop all containers
+- `make clean` - Stop containers and remove volumes
+- `make fclean` - Complete cleanup (removes containers, images, and data)
+- `make re` - Rebuild everything from scratch
+
+### Access
+
+Once the infrastructure is running:
+- Access the WordPress site via HTTPS at: `https://aohssine.42.fr` (or your configured domain)
+- Ensure your domain is properly configured in your `/etc/hosts` file or DNS
+
+### Verification
+
+Check that all containers are running:
+```bash
+docker ps
+```
+
+You should see three containers: `nginx`, `wordpress`, and `mariadb`.
+
+## Resources
+
+### Documentation & References
+
+- **Docker Official Documentation**: [https://docs.docker.com/](https://docs.docker.com/)
+  - Comprehensive guide on Docker concepts, Dockerfile syntax, and best practices
+  
+- **Docker Compose Documentation**: [https://docs.docker.com/compose/](https://docs.docker.com/compose/)
+  - Reference for multi-container orchestration and compose file syntax
+
+- **Alpine Linux**: [https://alpinelinux.org/](https://alpinelinux.org/)
+  - Official documentation for the base image used in this project
+
+- **NGINX Documentation**: [https://nginx.org/en/docs/](https://nginx.org/en/docs/)
+  - Configuration guides for web server and SSL/TLS setup
+
+- **MariaDB Documentation**: [https://mariadb.com/kb/en/documentation/](https://mariadb.com/kb/en/documentation/)
+  - Database server setup and configuration references
+
+- **WordPress Documentation**: [https://wordpress.org/support/](https://wordpress.org/support/)
+  - Official WordPress installation and configuration guides
+
+### Tutorials & Articles
+
+- **Docker Networking**: Understanding bridge networks and container communication
+- **Docker Volumes**: Deep dive into persistent storage mechanisms
+- **SSL/TLS with NGINX**: Configuring secure HTTPS connections
+- **Docker Security Best Practices**: Securing containerized applications
+
+### AI Usage Disclosure
+
+AI tools (such as GitHub Copilot and ChatGPT) were used in the following aspects of this project:
+
+- **Dockerfile Optimization**: AI assisted in reviewing and suggesting improvements to Dockerfile syntax and layer caching strategies to minimize image size and build time.
+
+- **Shell Script Generation**: AI was used to generate initial templates for entrypoint scripts and configuration automation, which were then manually reviewed and customized for project requirements.
+
+- **Documentation Structure**: AI helped structure and format the README.md, DEV_DOC.md, and USER_DOC.md files, ensuring clarity and completeness according to 42 curriculum standards.
+
+- **Troubleshooting**: AI provided suggestions for debugging Docker networking issues, container startup sequences, and health check configurations.
+
+- **Configuration Examples**: AI generated example configurations for NGINX SSL setup, WordPress PHP-FPM settings, and MariaDB initialization scripts, which were adapted to project specifications.
+
+**Note**: All AI-generated content was thoroughly reviewed, tested, and modified to ensure it met project requirements and adhered to 42 school guidelines. The core architecture decisions, security implementations, and technical choices were made independently.
